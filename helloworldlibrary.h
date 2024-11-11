@@ -4,23 +4,23 @@
 #include "program.h"
 #include "abstractindex.h"
 #include "exceptions.h"
-#include <set>
+#include <map>
 #include <string>
-#include <functional>
+
+typedef std::function<bool(std::string, std::string)> stringCompFunc;
 
 class HelloWorldLibrary{
-    //This ugly pile of code creates a set that orders Programs in alphabetical order
-    //It is enough if we use set, it will still find a pre-existing object: https://cplusplus.com/reference/set/set/find/
-    std::set<Program, std::function<bool(const Program&, const Program&)> > alphabeticalSet{[](const Program& p1, const Program& p2)->bool {
-        return p1.name < p2.name;
-    }};
+    //Using a pointer to save on copy operations. This makes our map vulnerable to breaking down so we have to make sure never to change the value of strings in our Program objects
+    stringCompFunc sortingLambda = [](std::string s1, std::string s2){return s1 < s2;};
+    std::map<std::string, Program, stringCompFunc> alphabeticalMap{sortingLambda};
+    std::map<std::string, AbstractIndex, stringCompFunc> indexMap{sortingLambda};
     size_t size = 0;
 public:
     HelloWorldLibrary() = default;
 
     void addProgram(const Program& p){
-        if(alphabeticalSet.find(p) != alphabeticalSet.end()) throw duplicateName();
-        alphabeticalSet.insert(p);
+        if(alphabeticalMap.find(p.name) != alphabeticalMap.end()) throw duplicateName();
+        alphabeticalMap.insert({p.name,p});
         ++size;
     }
 
@@ -49,7 +49,12 @@ public:
     }
 
     Program operator[](const std::string& name){
-        if(alphabeticalSet.find(name) != alphabeticalSet.end())
+        std::cout << "Operator[]0\n";
+        std::string s = name;
+        std::cout << "Operator[]1\n";
+        if(alphabeticalMap.find(name) == alphabeticalMap.end()) throw noElementInLibrary();
+        std::cout << "Operator[]2\n";
+        return alphabeticalMap[name];
     }
 
     size_t libSize(){

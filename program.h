@@ -16,12 +16,11 @@ struct Program{
     I'll keep everything default-initialized for now, but I want to make it clear that I'd absolutely deleted this constructor if I could
      */
     Program() = default;
+    Program(const Program &other) = default;
 
     //Using move to save one copy operation
     Program(std::string name, std::string lang, std::string code, int diff, int abstraction)
         : name(std::move(name)), language(std::move(lang)), code(std::move(code)), difficulty(diff), abstraction(abstraction) {}
-
-    Program(const Program &other) = default;
 
     //Using std::move to force allocated memory to be reused
     Program(Program &&other) noexcept

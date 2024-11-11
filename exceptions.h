@@ -5,7 +5,7 @@
 
 //I'll have to re-read the chapter about exceptions in "The C++ programming language"
 class noElementInLibrary : std::exception{
-    //TODO homework
+    [[nodiscard]] const char *what() const noexcept override { return "Program not in library"; }
 };
 
 class noSuchIndex : std::exception{

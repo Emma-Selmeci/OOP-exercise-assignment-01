@@ -7,18 +7,29 @@
 #include "exceptions.h"
 #include "program.h"
 
+#include <iostream>
+
 TEST("Basic insertion") {
     HelloWorldLibrary lib;
     Program p("a01", "lang0", "code01", 0, 0);
     Program p2("a02", "lang0", "code01", 0, 0);
 
+    std::cout << "Reached1\n";
+
     lib.addProgram(p);
+
+    std::cout << "Reached2\n";
+
     CHECK_EQ(lib.libSize(), size_t(1));
+
+
     CHECK_EQ(lib["a01"].name, "a01");
     CHECK_EQ(lib["a01"].language, "lang0");
     CHECK_EQ(lib["a01"].code, "code01");
     CHECK_EQ(lib["a01"].difficulty, 0);
     CHECK_EQ(lib["a01"].abstraction, 0);
+
+
 }
 
 TEST("Multiple insert and basic index") {
