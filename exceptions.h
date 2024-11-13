@@ -9,15 +9,15 @@ class noElementInLibrary : std::exception{
 };
 
 class noSuchIndex : std::exception{
-    //TODO homework
+    [[nodiscard]] const char *what() const noexcept override { return "Index not in library"; }
 };
 
 class invalidDifficulty : std::exception{
-    //TODO homework
+    [[nodiscard]] const char *what() const noexcept override { return "Only positive difficulty levels allowed!"; }
 };
 
 class invalidAbstraction : std::exception{
-    //TODO homework
+    [[nodiscard]] const char *what() const noexcept override { return "Only positive abstraction levels allowed!"; }
 };
 
 class duplicateName : std::exception{
@@ -26,11 +26,12 @@ public:
 };
 
 class duplicateIndex : std::exception{
-    //TODO homework
+public:
+    [[nodiscard]] const char *what() const noexcept override { return "Duplicate index in library"; }
 };
 
 class invalidRange : std::exception{
-    //TODO homework
+    [[nodiscard]] const char *what() const noexcept override { return "Invalid range! Try reverse order"; }
 };
 
 #endif //HELLO_WORLD_LIBRARY_EXCEPTIONS_H

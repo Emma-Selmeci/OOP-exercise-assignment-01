@@ -17,6 +17,7 @@ class AbstractionIndex : public AbstractIndex {
         //We shouldn't reach this point, duplicate names are not allowed
         result = p1->name <=> p2->name;
         if(result < 0) return true;
+        if(result > 0) return false;
         return false;
     };
 public:
@@ -40,7 +41,8 @@ class DifficultyIndex : public AbstractIndex{
         //We shouldn't reach this point, duplicate names are not allowed
         result = p1->name <=> p2->name;
         if(result < 0) return true;
-        return false;
+        if(result > 0) return false;
+        return true;
     };
 public:
     DifficultyIndex() : AbstractIndex(getLambda()) {}

@@ -14,14 +14,9 @@ TEST("Basic insertion") {
     Program p("a01", "lang0", "code01", 0, 0);
     Program p2("a02", "lang0", "code01", 0, 0);
 
-    std::cout << "Reached1\n";
-
     lib.addProgram(p);
 
-    std::cout << "Reached2\n";
-
     CHECK_EQ(lib.libSize(), size_t(1));
-
 
     CHECK_EQ(lib["a01"].name, "a01");
     CHECK_EQ(lib["a01"].language, "lang0");
@@ -29,24 +24,34 @@ TEST("Basic insertion") {
     CHECK_EQ(lib["a01"].difficulty, 0);
     CHECK_EQ(lib["a01"].abstraction, 0);
 
-
 }
 
 TEST("Multiple insert and basic index") {
     HelloWorldLibrary lib;
 
     std::string names[] = { "a01", "a02", "a03", "a04" };
+    std::cout << "Insertion test0\n";
     Program p(names[0], "lang0", "code01", 0, 0);
     Program q(names[1], "lang0", "code02", 0, 1);
     Program r(names[2], "lang0", "code01", 0, 1);
     Program s(names[3], "lang0", "code01", 0, 0);
 
+    std::cout << "Insertion test1\n";
+
     lib.addProgram(p);
     lib.addProgram(q);
     lib.addProgram(r);
     lib.addProgram(s);
+
+    std::cout << "Insertion test2\n";
+
     AbstractIndex* idx0 = new DifficultyIndex();
+
+    std::cout << "Insertion test2.5\n";
+
     lib.addIndex("difficulty", idx0);
+
+    std::cout << "Insertion test3\n";
 
     std::vector<Program*> idx = lib.getRangeFromIndex("difficulty", p, s);
     int idx_size = int(idx.size());
